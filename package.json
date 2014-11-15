@@ -1,0 +1,11 @@
+{
+  "name": "interviewSecrets",
+  "version": "0.0.0",
+  "description": "GlassDoor.com for H/R",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Mike Luby <Michael@mLuby.com> http://GitHub.com/mLuby",
+  "license": "MIT"
+}
