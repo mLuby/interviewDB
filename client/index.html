@@ -2,50 +2,47 @@
 <html ng-app="InterviewSecrets">
 <head>
   <title></title>
+  <link rel="stylesheet" type="text/css" href="tile/tile.css">
+  <link rel="stylesheet" type="text/css" href="icon/icon.css">
   <link rel="stylesheet" type="text/css" href="app.css">
   <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.css">
   <script src="bower_components/angular/angular.js"></script>
+  <script src="tile/tile.js"></script>
+  <script src="icon/icon.js"></script>
   <script src="app.js"></script>
 </head>
 <body>
 
   <input type="text" placeholder="Company" ng-model="company">
-  <label><icon i="calendar">When was this?</label><input type="date" ng-model="company">
+  <icon i="calendar"></icon>
+  <label>When was this?</label>
+  <input type="date" ng-model="company">
 
   <div class="question" ng-controller="AddQuestionController">
-    <icon i="book">
-
-    <div ng-model="type">
-      <label>What kind of question was this?</label>
-      <tile-option>
-        <icon i="keyboard-o">
-        Coding ("convert this to a directive")
-      </tile-option>
-      <tile-option>
-        <icon i="pencil-square-o">
-        whiteboarding ("design an API")
-      </tile-option>
-      <tile-option>
-        <icon i="users">
-        behavioral ("tell me about a time when")
-      </tile-option>
-      <tile-option>
-        <icon i="book">
-        facts ("what's a closure?")
-      </tile-option>
-      <tile-option>
-        <icon i="book">
-        other
-      </tile-option>
+    <label>What kind of question was this?</label>
+    <div class="tile-container" ng-model="type">
+      <tile option title="Facts ('what's a closure?')">
+        <icon i="book"></icon>
+      </tile>
+      <tile option title="Behavioral ('tell me about a time when')">
+        <icon i="users"></icon>
+      </tile>
+      <tile option title="Whiteboarding ('design an API')">
+        <icon i="pencil-square-o"></icon>
+      </tile>
+      <tile option title="Coding ('convert this to a directive')">
+        <icon i="keyboard-o"></icon>
+      </tile>
     </div>
-    <div ng-click="submitQuestion(company, type, prompt, answer, conclusion)" class="tile-option">
+
+    <div ng-click="submitQuestion(company, type, prompt, answer, conclusion)" class="tile">
       Submit
     </div>
   </div>
 
   <div ng-controller="ViewQuestionsController">
     <div class="question" ng-repeat="question in questions">
-      <p><i class="fa {{question.icon}}">{{question.type}}:</p>
+      <p><icon i="{{question.icon}}"></icon>{{question.type}}:</p>
       <p>{{question.prompt}}</p>
       <p>Answer given {{question.answer}}</p>
       <p>What did they say? {{question.conclusion}}</p>
