@@ -29,3 +29,31 @@ app.controller('AddQuestionController', function($scope, Questions){
 app.controller('ViewQuestionsController', function($scope, Questions){
   $scope.questions = Questions;
 });
+
+app.directive('tileOption', function(){
+  return {
+    restrict: 'E',
+    scope: true,
+    template: ''+
+      '<div></div>',
+    replace: true,
+    transclude: true
+  };
+});
+
+app.directive('icon', function(){
+  return {
+    restrict: 'E',
+    scope: {
+      fontAwesome: '=i'
+    },
+    template: ''+
+      '<span class="fa"></span>',
+    replace: true,
+    link: function (scope, element, attrs){
+      scope.$watch(attrs.i, function () {
+        element.addClass('fa-'+attrs.i);
+      });
+    }
+  };
+});
