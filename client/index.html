@@ -2,50 +2,67 @@
 <html ng-app="InterviewSecrets">
 <head>
   <title></title>
-  <link rel="stylesheet" type="text/css" href="tile/tile.css">
-  <link rel="stylesheet" type="text/css" href="icon/icon.css">
-  <link rel="stylesheet" type="text/css" href="app.css">
-  <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.css">
+  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
-  <script src="tile/tile.js"></script>
-  <script src="icon/icon.js"></script>
   <script src="app.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="app.css">
 </head>
 <body>
-
-  <input type="text" placeholder="Company" ng-model="company">
-  <icon i="calendar"></icon>
-  <label>When was this?</label>
-  <input type="date" ng-model="company">
-
-  <div class="question" ng-controller="AddQuestionController">
-    <label>What kind of question was this?</label>
-    <div class="tile-container" ng-model="type">
-      <tile option title="Facts ('what's a closure?')">
-        <icon i="book"></icon>
-      </tile>
-      <tile option title="Behavioral ('tell me about a time when')">
-        <icon i="users"></icon>
-      </tile>
-      <tile option title="Whiteboarding ('design an API')">
-        <icon i="pencil-square-o"></icon>
-      </tile>
-      <tile option title="Coding ('convert this to a directive')">
-        <icon i="keyboard-o"></icon>
-      </tile>
+  <form validate ng-controller="AddQuestionController" ng-submit="submitQuestion(company, type, prompt, answer, conclusion)">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Visit</h3>
+      </div>
+      <div class="panel-body">
+        <label class="label label-default">What company?</label>
+        <input required type="text" ng-model="company">
+        <label class="label label-default">When was this?</label>
+        <input required type="date" ng-model="date">
+      </div>
     </div>
 
-    <div ng-click="submitQuestion(company, type, prompt, answer, conclusion)" class="tile">
-      Submit
-    </div>
-  </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">What questions did they ask?</h3>
+      </div>
+      <div class="panel-body">
+        <label class="label label-default">What kind of question was this?</label>
+        <select required ng-model="type">
+          <option value="facts">Facts ('what's a closure?')</option>
+          <option value="behavioral">Behavioral ('tell me about a time when')</option>
+          <option value="whiteboarding">Whiteboarding ('design an API')</option>
+          <option value="coding">Coding ('convert this to a directive')</option>
+        </select>
 
-  <div ng-controller="ViewQuestionsController">
-    <div class="question" ng-repeat="question in questions">
-      <p><icon i="{{question.icon}}"></icon>{{question.type}}:</p>
-      <p>{{question.prompt}}</p>
-      <p>Answer given {{question.answer}}</p>
-      <p>What did they say? {{question.conclusion}}</p>
+        <label class="label label-default">What was the prompt?</label>
+        <textarea required ng-model="prompt" rows="2"></textarea>
+
+        <label class="label label-default">What answer did you give?</label>
+        <textarea required ng-model="answer" rows="2"></textarea>
+
+        <label class="label label-default">What did they say?</label>
+        <textarea required ng-model="conclusion" rows="2"></textarea>
+
+        <input type="submit" class="btn btn-lg btn-default">
+      </div>
+    </div>
+  </form>
+
+  <div class="panel panel-success" ng-controller="ViewQuestionsController">
+    <div class="panel-heading">
+      <h3 class="panel-title">Questions from {{company}}</h3>
+    </div>
+    <div class="panel-body" >
+      <div class="question" ng-repeat="question in questions">
+        <p>Type: {{question.type}}</p>
+        <p>Prompt: {{question.prompt}}</p>
+        <p>Answer given: {{question.answer}}</p>
+        <p>What did they say? {{question.conclusion}}</p>
+      </div>
     </div>
   </div>
 
