@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="InterviewSecrets">
+<html ng-app="interviewDB">
 <head>
   <title></title>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/angularfire/dist/angularfire.js"></script>
   <script src="app.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 
@@ -12,59 +14,66 @@
   <link rel="stylesheet" type="text/css" href="app.css">
 </head>
 <body>
-  <form validate ng-controller="AddQuestionController" ng-submit="submitQuestion(company, type, prompt, answer, conclusion)">
-    <div class="panel panel-default">
+  <form validate ng-controller="QuestionController" ng-submit="submitQuestion(company, date, type, prompt, answer, conclusion)">
+  <div id="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Visit Details</h3>
+        </div>
+        <div class="panel-body">
+          <label class="label label-default">What company?</label>
+          <input required type="text" ng-model="company">
+          <label class="label label-default">When was this?</label>
+          <button>Today</button><button>Yesterday</button>
+          <input required type="date" ng-model="date">
+        </div>
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Question Details</h3>
+        </div>
+        <div class="panel-body">
+          <label class="label label-primary">What kind of question was this?</label>
+          <select required ng-model="type">
+            <option value="Factual">Factual ('what's a closure?')</option>
+            <option value="Behavioral">Behavioral ('tell me about a time when')</option>
+            <option value="Whiteboarding">Whiteboarding ('design an API')</option>
+            <option value="Live Coding">Live Coding ('convert this to a directive')</option>
+            <option value="Coding Challenge">Coding Challenge ('display data from this API')</option>
+          </select>
+
+          <label class="label label-primary">What was the prompt?</label>
+          <textarea placeholder="Mention constraints, including time." required ng-model="prompt" rows="2"></textarea>
+
+          <label class="label label-primary">What answer did you give?</label>
+          <textarea required ng-model="answer" rows="2"></textarea>
+
+          <label class="label label-primary">What did they say?</label>
+          <textarea placeholder="Did they accept your answer? Were there follow-up questions?" required ng-model="conclusion" rows="2"></textarea>
+
+          <input type="submit" class="btn btn-lg btn-default">
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-success" ng-controller="ViewQuestionsController">
       <div class="panel-heading">
-        <h3 class="panel-title">Visit</h3>
+        <h3 class="panel-title">Questions from {{company}}<span class="badge">{{questions.length}}</span></h3>
       </div>
-      <div class="panel-body">
-        <label class="label label-default">What company?</label>
-        <input required type="text" ng-model="company">
-        <label class="label label-default">When was this?</label>
-        <input required type="date" ng-model="date">
-      </div>
-    </div>
-
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">What questions did they ask?</h3>
-      </div>
-      <div class="panel-body">
-        <label class="label label-default">What kind of question was this?</label>
-        <select required ng-model="type">
-          <option value="facts">Facts ('what's a closure?')</option>
-          <option value="behavioral">Behavioral ('tell me about a time when')</option>
-          <option value="whiteboarding">Whiteboarding ('design an API')</option>
-          <option value="coding">Coding ('convert this to a directive')</option>
-        </select>
-
-        <label class="label label-default">What was the prompt?</label>
-        <textarea required ng-model="prompt" rows="2"></textarea>
-
-        <label class="label label-default">What answer did you give?</label>
-        <textarea required ng-model="answer" rows="2"></textarea>
-
-        <label class="label label-default">What did they say?</label>
-        <textarea required ng-model="conclusion" rows="2"></textarea>
-
-        <input type="submit" class="btn btn-lg btn-default">
-      </div>
-    </div>
-  </form>
-
-  <div class="panel panel-success" ng-controller="ViewQuestionsController">
-    <div class="panel-heading">
-      <h3 class="panel-title">Questions from {{company}}</h3>
-    </div>
-    <div class="panel-body" >
-      <div class="question" ng-repeat="question in questions">
-        <p>Type: {{question.type}}</p>
-        <p>Prompt: {{question.prompt}}</p>
-        <p>Answer given: {{question.answer}}</p>
-        <p>What did they say? {{question.conclusion}}</p>
+      <div class="panel-body" >
+        <div class="question panel panel-success" ng-repeat="question in questions">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{question.type}}<span class="badge dismiss">X</span></h3>
+          </div>
+          <div class="panel-body" >
+            <p><label class="label label-success">Prompt</label>{{question.prompt}}</p>
+            <p><label class="label label-success">Attempt</label>{{question.answer}}</p>
+            <p><label class="label label-success">Conclusion</label>{{question.conclusion}}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
 </body>
 </html>

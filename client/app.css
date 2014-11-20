@@ -1,22 +1,52 @@
 body{
   padding: 10px;
+  font-size: 20px;
 }
+#container{
+}
+
+#container>.panel{
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  margin: 10px;
+  min-width: 300px;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, .4);
+}
+.question:last-child{
+  margin-bottom: 0;
+}
+
 input, select, button, textarea{
   display: block;
   width: 100%;
   margin-bottom: 5px;
   margin-top: 5px;
 }
+::-webkit-input-placeholder {
+   font-size: 75%; /* so it matches .label size */
+}
+
+label{
+  margin-right: 5px;
+}
+
+.dismiss{
+  padding-left: 5px;
+  padding-right: 5px;
+  float: right;
+}
+
+/* When the add question form is valid, highlight the submit button. */
 form.ng-valid-required input[type="submit"]{
-  background-image: -webkit-linear-gradient(top, #337ab7 0%, #265a88 100%);
-  background-image: -o-linear-gradient(top, #337ab7 0%, #265a88 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#337ab7), to(#265a88));
   background-image: linear-gradient(to bottom, #337ab7 0%, #265a88 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
   border-color: #245580;
   color: #fff;
   background-color: #337ab7;
-  border-color: #2e6da4;
+  text-shadow: none;
+}
+form.ng-valid-required input[type="submit"]:hover{
+  background-image: linear-gradient(to top, #337ab7 0%, #265a88 100%);
+  background-position: 0;
 }
