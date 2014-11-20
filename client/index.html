@@ -14,8 +14,8 @@
   <link rel="stylesheet" type="text/css" href="app.css">
 </head>
 <body>
-  <form validate ng-controller="QuestionController" ng-submit="submitQuestion(company, date, type, prompt, answer, conclusion)">
-  <div id="container">
+  <form validate ng-controller="AddQuestionController" ng-submit="submitQuestion(company, date, type, prompt, answer, conclusion)">
+    <div id="container">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Visit Details</h3>
@@ -42,16 +42,12 @@
             <option value="Live Coding">Live Coding ('convert this to a directive')</option>
             <option value="Coding Challenge">Coding Challenge ('display data from this API')</option>
           </select>
-
           <label class="label label-primary">What was the prompt?</label>
           <textarea placeholder="Mention constraints, including time." required ng-model="prompt" rows="2"></textarea>
-
           <label class="label label-primary">What answer did you give?</label>
           <textarea required ng-model="answer" rows="2"></textarea>
-
           <label class="label label-primary">What did they say?</label>
           <textarea placeholder="Did they accept your answer? Were there follow-up questions?" required ng-model="conclusion" rows="2"></textarea>
-
           <input type="submit" class="btn btn-lg btn-default">
         </div>
       </div>
@@ -59,7 +55,7 @@
 
     <div class="panel panel-success" ng-controller="ViewQuestionsController">
       <div class="panel-heading">
-        <h3 class="panel-title">Questions from {{company}}<span class="badge">{{questions.length}}</span></h3>
+        <h3 class="panel-title" ng-click="logQuestions()">Questions{{company ? ' from '+company : ''}}<span class="badge">{{questions.length}}</span></h3>
       </div>
       <div class="panel-body" >
         <div class="question panel panel-success" ng-repeat="question in questions">

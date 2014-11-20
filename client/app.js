@@ -1,6 +1,6 @@
 var app = angular.module('interviewDB', ['firebase']);
 
-app.factory('DB', function($http, $firebase){
+app.factory('DB', function($http, $firebase, Questions){
   var ref = new Firebase('https://interviewDB.firebaseio.com/');
   var sync = $firebase(ref);
 
@@ -8,25 +8,32 @@ app.factory('DB', function($http, $firebase){
     sync.$push(question).then(function(newChildRef) {
       console.log("added question");
     });
-    // var list = $firebase(ref).$asArray();
-    // return list.$loaded(function(loadedList){
-    //   console.log('firebase loaded, deleting messageID', messageID);
-    //   return loadedList.$remove(loadedList.$getRecord(messageID));
-    // });
   };
 
+  var getQuestions = function(){
+    var list = $firebase(ref).$asArray();
+    return list.$loaded();
+  }
+
   return {
-    push: addQuestion
+    push: addQuestion,
+    load: getQuestions
   }
 });
 
-
 app.value('Questions', []);
 
-// {company: 'Hooli', type: 'Factual', prompt: 'What\'s a closure?', answer: 'It\'s a private variable.', conclusion: 'Okay, can you give an example of when you used one?'},
-// {company: 'Pied Piper', type: 'Whiteboarding', prompt: 'Design an API to show all interactions from a single user.', answer: 'Let\'s capture user interaction via session tracking, then store that in a MongoDB.', conclusion: 'Okay, how can we make this faster?'}
+app.controller('ViewQuestionsController', function($scope, Questions, DB){
+  DB.load().then(function(data){
+    Questions = data;
+    $scope.questions = Questions;
+  });
+  $scope.logQuestions = function(){
+    console.log('Questions',Questions);
+  }
+});
 
-app.controller('QuestionController', function($scope, Questions, DB){
+app.controller('AddQuestionController', function($scope, Questions, DB){
   $scope.submitQuestion = function (company, date, type, prompt, answer, conclusion){
     // Clear fields
     $scope.type = '';
@@ -47,8 +54,4 @@ app.controller('QuestionController', function($scope, Questions, DB){
     Questions.push( question );
     DB.push( question );
   };
-});
-
-app.controller('ViewQuestionsController', function($scope, Questions, DB){
-  $scope.questions = Questions;
 });
