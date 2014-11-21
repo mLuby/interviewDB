@@ -37,6 +37,7 @@
         <div class="panel-body">
           <label class="label label-primary">What kind of question was this?</label>
           <select required ng-model="type">
+            <option value="">Please select</option>
             <option value="Factual">Factual ('what's a closure?')</option>
             <option value="Behavioral">Behavioral ('tell me about a time when')</option>
             <option value="Whiteboarding">Whiteboarding ('design an API')</option>
@@ -46,9 +47,9 @@
           <label class="label label-primary">What was the prompt?</label>
           <textarea placeholder="Mention constraints, including time." required ng-model="prompt" rows="2"></textarea>
           <label class="label label-primary">What answer did you give?</label>
-          <textarea required ng-model="answer" rows="2"></textarea>
+          <textarea ng-model="answer" rows="2"></textarea>
           <label class="label label-primary">What did they say?</label>
-          <textarea placeholder="Did they accept your answer? Were there follow-up questions?" required ng-model="conclusion" rows="2"></textarea>
+          <textarea placeholder="Did they accept your answer? Were there follow-up questions?" ng-model="conclusion" rows="2"></textarea>
           <input type="submit" class="btn btn-lg btn-default">
         </div>
       </div>
@@ -59,9 +60,9 @@
         <h3 class="panel-title" ng-click="logQuestions()">Questions{{company ? ' from '+company : ''}}<span class="badge">{{questions.length}}</span></h3>
       </div>
       <div class="panel-body" >
-        <div class="question panel panel-success" ng-repeat="question in questions" ng-if="!question.hideQuestion">
+        <div class="question panel panel-success" ng-repeat="question in questions | orderBy:'type'" ng-if="!question.hideQuestion">
           <div class="panel-heading">
-            <h3 class="panel-title">{{question.type}}<span class="badge dismiss" ng-click="question.hideQuestion = !question.hideQuestion">X</span></h3>
+            <h3 class="panel-title">{{$index}}{{question.type}}<span class="badge dismiss" ng-click="questions.splice($index,1)">X</span></h3>
           </div>
           <div class="panel-body" >
             <p ng-click="question.showAnswer = !question.showAnswer"><label class="label label-success">Prompt</label>{{question.prompt}}</p>

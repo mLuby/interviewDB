@@ -1,4 +1,7 @@
 body{
+  background-image: url('light-wooden-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 10px;
   font-size: 20px;
 }

@@ -14,7 +14,7 @@ app.factory('DB', function($http, $firebase, Questions){
 
   var addQuestion = function(question){
     sync.$push(question).then(function(newChildRef) {
-      console.log("added question");
+      console.log('added question', question);
     });
   };
 
@@ -36,9 +36,6 @@ app.controller('ViewQuestionsController', function($scope, Questions, DB){
     Questions = data;
     $scope.questions = Questions;
   });
-  $scope.logQuestions = function(){
-    console.log('Questions',Questions);
-  }
 });
 
 app.controller('AddQuestionController', function($scope, Questions, DB){
@@ -48,16 +45,6 @@ app.controller('AddQuestionController', function($scope, Questions, DB){
       currentDate.setDate(currentDate.getDate() - 1)
     }
     $scope.date = currentDate;
-  };
-  $scope.logQuestion = function(){
-    console.log('Question',{
-      company: $scope.company,
-      date: $scope.date,
-      type: $scope.type,
-      prompt: $scope.prompt,
-      answer: $scope.answer,
-      conclusion: $scope.conclusion
-    });
   };
   $scope.submitQuestion = function (company, date, type, prompt, answer, conclusion){
     // Clear fields
@@ -69,12 +56,12 @@ app.controller('AddQuestionController', function($scope, Questions, DB){
     // Create new question object.
     var question = {
       company: company,
-      date: date,
+      date: date.toDateString(),
       type: type,
       prompt: prompt,
-      answer: answer,
-      conclusion: conclusion
     };
+    if(answer){ question.answer = answer; }
+    if(conclusion){ question.conclusion = conclusion; }
 
     Questions.push( question );
     DB.push( question );
