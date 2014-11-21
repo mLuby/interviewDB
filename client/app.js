@@ -1,3 +1,11 @@
+/* TODO:
+ * [ ] autosuggest company name
+ * [x] default hide all but prompts; click reveals
+ * [x] can dismiss question via top right x.
+ * [x] make relative date buttons work
+ */
+
+
 var app = angular.module('interviewDB', ['firebase']);
 
 app.factory('DB', function($http, $firebase, Questions){
@@ -34,6 +42,23 @@ app.controller('ViewQuestionsController', function($scope, Questions, DB){
 });
 
 app.controller('AddQuestionController', function($scope, Questions, DB){
+  $scope.setDateTo = function(relativeDate){
+    var currentDate = new Date();
+    if(relativeDate === 'yesterday'){
+      currentDate.setDate(currentDate.getDate() - 1)
+    }
+    $scope.date = currentDate;
+  };
+  $scope.logQuestion = function(){
+    console.log('Question',{
+      company: $scope.company,
+      date: $scope.date,
+      type: $scope.type,
+      prompt: $scope.prompt,
+      answer: $scope.answer,
+      conclusion: $scope.conclusion
+    });
+  };
   $scope.submitQuestion = function (company, date, type, prompt, answer, conclusion){
     // Clear fields
     $scope.type = '';

@@ -24,14 +24,15 @@
           <label class="label label-default">What company?</label>
           <input required type="text" ng-model="company">
           <label class="label label-default">When was this?</label>
-          <button>Today</button><button>Yesterday</button>
+          <span ng-click="setDateTo('today')" class="btn btn-lg btn-default">Today</span>
+          <span ng-click="setDateTo('yesterday')" class="btn btn-lg btn-default">Yesterday</span>
           <input required type="date" ng-model="date">
         </div>
       </div>
 
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Question Details</h3>
+          <h3 class="panel-title" ng-click="logQuestion()">Question Details</h3>
         </div>
         <div class="panel-body">
           <label class="label label-primary">What kind of question was this?</label>
@@ -58,14 +59,14 @@
         <h3 class="panel-title" ng-click="logQuestions()">Questions{{company ? ' from '+company : ''}}<span class="badge">{{questions.length}}</span></h3>
       </div>
       <div class="panel-body" >
-        <div class="question panel panel-success" ng-repeat="question in questions">
+        <div class="question panel panel-success" ng-repeat="question in questions" ng-if="!question.hideQuestion">
           <div class="panel-heading">
-            <h3 class="panel-title">{{question.type}}<span class="badge dismiss">X</span></h3>
+            <h3 class="panel-title">{{question.type}}<span class="badge dismiss" ng-click="question.hideQuestion = !question.hideQuestion">X</span></h3>
           </div>
           <div class="panel-body" >
-            <p><label class="label label-success">Prompt</label>{{question.prompt}}</p>
-            <p><label class="label label-success">Attempt</label>{{question.answer}}</p>
-            <p><label class="label label-success">Conclusion</label>{{question.conclusion}}</p>
+            <p ng-click="question.showAnswer = !question.showAnswer"><label class="label label-success">Prompt</label>{{question.prompt}}</p>
+            <p ng-if="question.showAnswer"><label class="label label-success">Attempt</label>{{question.answer}}</p>
+            <p ng-if="question.showAnswer"><label class="label label-success">Conclusion</label>{{question.conclusion}}</p>
           </div>
         </div>
       </div>
