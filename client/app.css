@@ -1,11 +1,23 @@
 body{
-  background-image: url('light-wooden-background.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: black;
   padding: 10px;
   font-size: 20px;
 }
-#container{
+@media only screen
+and (min-device-width : 480px) {
+  body{
+    background-image: url('light-wooden-background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+/* iPhone 4S */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+  body{
+    font-size: 100px;
+  }
 }
 
 #container>.panel{
